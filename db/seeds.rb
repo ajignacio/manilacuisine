@@ -5,3 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+cuisine_data = ["Filipino","Chinese","American","Korean","Fastfood"]
+cuisine_data.each do |c|
+  Cuisine.create(name: c)
+end
