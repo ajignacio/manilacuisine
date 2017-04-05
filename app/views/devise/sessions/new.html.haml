@@ -1,0 +1,14 @@
+.container
+  %h2 Log in
+  = form_for(resource, as: resource_name, url: session_path(resource_name), class:"form-signin") do |f|
+    .field
+      = f.label :username
+      %br/
+      = f.text_field :username, autofocus: true
+    .field
+      = f.label :password
+      %br/
+      = f.password_field :password, autocomplete: "off"
+    .actions
+      = f.submit "Log in", class:"btn btn-primary"
+  =# render "devise/shared/links"

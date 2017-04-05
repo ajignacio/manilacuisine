@@ -1,0 +1,16 @@
+.jumbotron
+  .row
+    .col-md-12
+      = form_tag '/', remote: true, method: :get do
+        .form-group
+          = label_tag :cuisine
+          = select_tag :cuisine, options_from_collection_for_select(Cuisine.all, 'id', 'name'), {include_blank: 'All'}
+
+          = label_tag :star
+          = select_tag :star, options_for_select(select_star)
+
+          = submit_tag "Search", class: "btn btn-primary "
+
+
+    .col-md-12
+      #restaurants= render 'user_data'

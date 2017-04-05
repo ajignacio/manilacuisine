@@ -1,0 +1,11 @@
+- if @cuisine.errors.any?
+  .alert.alert-danger{:role => "alert"}
+    %h2= "#{pluralize(@cuisine.errors.count, "error")}"
+    %ul
+      - @cuisine.errors.full_messages.each do |msg|
+        %li= msg
+= form_for @cuisine do |c|
+  .form-group
+    = c.label :name
+    = c.text_field :name, class: "form-control"
+  %br= c.submit 'Save', class: "btn btn-primary pull-right"

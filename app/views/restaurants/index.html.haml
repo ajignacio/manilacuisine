@@ -1,0 +1,29 @@
+- if flash[:notice].present?
+  .alert.alert-success{:role => "alert"}
+    = flash[:notice]
+.jumbotron
+  .row
+    %h3
+      List Restaurant
+    .col-md-12
+      .pull-right
+        = link_to "New Restaurant", new_restaurant_path, class: "btn btn-primary"
+      %table.table.table-hover
+        %thead
+          %th Restaurant
+          %th Cuisine
+          %th Address
+          %th TelePhone
+          %th
+        %tbody
+        - @restaurants.each do |a|
+          %tr
+            %td= a.name
+            %td= a.cuisine.name
+            %td= a.address
+            %td= a.telephone_number
+            %td
+              - if can? :update, @restaurants
+                = link_to "Edit", edit_restaurant_path(a), class: "btn btn-primary btn-sm"
+              - if can? :destroy, @restaurants
+                = link_to "Delete", a, method: :delete , data: { confirm: "Are you sure?" } , class: "btn btn-danger btn-sm"

@@ -1,0 +1,27 @@
+%table.table.table-hover
+  %thead
+    %th Restaurant
+    %th Cuisine
+    %th Rate
+    %th
+  %tbody
+  - cnt=0
+  - @restaurants[:restaurant].each do |a|
+    %tr
+      %td= a[:name]
+      %td= a[:cuisine]
+      %td
+        %div{:class => "star-rating_#{cnt}", "data-score" => "#{a[:rate]}"}
+    - cnt+=1
+
+:javascript
+  var total_resto = "#{@restaurants[:restaurant].count}";
+  var d = #{@restaurants[:total_rate]}
+  var i;
+  for (i = 0; i < total_resto; i++) {
+    $('.star-rating_'+i).raty({
+      path: '/assets/',
+      readOnly: true,
+      score: d[i]
+    });
+  }

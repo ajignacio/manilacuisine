@@ -1,0 +1,27 @@
+%nav.navbar.navbar-toggleable-md.navbar-inverse.bg-inverse.mb-4
+  .container
+    .navbar-header
+      %button.navbar-toggle.collapsed{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "collapse", :type => "button"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.navbar-brand{:href => "#"} Manila-Cuisine
+    #navbar.collapse.navbar-collapse
+      %ul.nav.navbar-nav
+        %li
+          =link_to "Home", '/'
+        - if current_user.present?
+          - if current_user.is_admin?
+            %li
+              = link_to "Restaurant", restaurants_path
+            %li
+              = link_to "Cuisine", cuisines_path
+      %ul.nav.navbar-nav.pull-right
+        %li
+          - if current_user
+            = link_to "Logout", destroy_user_session_path, method: :delete
+          - else
+            = link_to "Sign in", new_user_session_path
+
+    / /.nav-collapse

@@ -1,0 +1,72 @@
+%table.table.table-hover
+  %thead
+    %th Restaurant
+    %th Cuisine
+    %th Restaurant Rate
+    - if current_user.present?
+      %th Your Rate
+  %tbody
+  - cnt=0
+  - @restaurants[:restaurant].each do |a|
+    %tr
+      %td= a[:name]
+      %td= a[:cuisine]
+      %td
+        %div{:class => "star-rating_#{cnt}", "data-score" => ""}
+      - if current_user.present?
+        %td
+          %div{:class => "user-rating_#{cnt}"}
+            = hidden_field_tag "rid", a[:restaurant].id, readOnly: true
+        %td
+          = link_to "UnRate", '', method: :get, class: "cancel_rate_#{cnt}", onclick:"cancelRate(#{cnt},#{a[:restaurant].id})"
+    - cnt+=1
+
+:javascript
+  var total_resto = "#{@restaurants[:restaurant].count}";
+  var d = #{@restaurants[:total_rate]}
+  var i;
+  for (i = 0; i < total_resto; i++) {
+    $('.star-rating_'+i).raty({
+      path: '/assets/',
+      readOnly: true,
+      score: d[i]
+    });
+  }
+  /* User Rate */
+  var user = #{@restaurants[:user_rate]}
+  var i;
+  for (i = 0; i < total_resto; i++) {
+    $('.user-rating_'+i).raty({
+      path: '/assets/',
+      readOnly: user[i] != 0 ? true : false,
+      click: function(score, evt) {
+        $(this).find('input').attr('readonly', true);
+        var rid = $(this).find('#rid').val();
+        $(this).find('img').unbind();
+        $.ajax({
+          type: "POST",
+          url: '/build_rate',
+          data: {score: score, restaurant_id:rid},
+          dataType: "script"
+        });
+      },
+      score: user[i]
+    });
+
+  }
+
+  function cancelRate(cnt,rid){
+    $.ajax({
+      type: "GET",
+      url: '/cancel_rate',
+      data: {restaurant_id:rid},
+      dataType: "script",
+      complete: function(){
+        $('.user-rating_'+cnt).raty({
+          path: '/assets/',
+          readOnly: false,
+          start: 0
+        })
+      }
+    });
+  }

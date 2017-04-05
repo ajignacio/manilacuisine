@@ -1,0 +1,20 @@
+- if @restaurant.errors.any?
+  .alert.alert-danger{:role => "alert"}
+    %h2= "#{pluralize(@restaurant.errors.count, "error")}"
+    %ul
+      - @restaurant.errors.full_messages.each do |msg|
+        %li= msg
+= form_for(@restaurant, url: @url) do |r| #, url: build_restaurant_path
+  .form-group
+    = r.label :cuisine
+    = r.select(:cuisine, select_for_cuisine)
+  .form-group
+    = r.label :name
+    = r.text_field :name, class: "form-control"
+  .form-group
+    = r.label :address
+    = r.text_field :address, class: "form-control"
+  .form-group
+    = r.label :telephone_number
+    = r.text_field :telephone_number, class: "form-control"
+  %br= r.submit 'Save', class: "btn btn-primary pull-right"
